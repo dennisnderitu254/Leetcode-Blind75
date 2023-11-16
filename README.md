@@ -87,3 +87,58 @@ If it is, the method appends True to the result list. Otherwise, the method appe
 
 Finally, the method returns the result list.
 
+# 605. Can Place Flowers
+
+You have a long flowerbed in which some of the plots are planted, and some are not. However, flowers cannot be planted in adjacent plots.
+
+Given an integer array flowerbed containing 0's and 1's, where 0 means empty and 1 means not empty, and an integer n, return true if n new flowers can be planted in the flowerbed without violating the no-adjacent-flowers rule and false otherwise.
+
+```
+Example 1:
+
+Input: flowerbed = [1,0,0,0,1], n = 1
+Output: true
+Example 2:
+
+Input: flowerbed = [1,0,0,0,1], n = 2
+Output: false
+```
+
+```
+Constraints:
+
+1 <= flowerbed.length <= 2 * 104
+flowerbed[i] is 0 or 1.
+There are no two adjacent flowers in flowerbed.
+0 <= n <= flowerbed.length
+```
+
+**Solution**
+
+```
+class Solution(object):
+    def canPlaceFlowers(self, flowerbed, n):
+        """
+        :type flowerbed: List[int]
+        :type n: int
+        :rtype: bool
+        """
+        # Add two zeros to the beginning and end of the flowerbed to handle edge cases
+        flowerbed = [0] + flowerbed + [0]
+
+        planted = 0
+        for i in range(1, len(flowerbed) - 1):
+            # If the current plot is empty and both adjacent plots are empty, plant a flower
+            if flowerbed[i] == 0 and flowerbed[i - 1] == 0 and flowerbed[i + 1] == 0:
+                flowerbed[i] = 1
+                planted += 1
+
+                # If we have planted enough flower, return True
+                if planted >= n:
+                    return True
+
+        # If we haven't planted enough flowers, return False
+        return planted >= n
+```
+
+This solution works by iterating through the flowerbed and planting flowers in empty spaces whenever possible. It handles the edge cases by adding two zeros to the beginning and end of the flowerbed. The solution runs in O(n) time, where n is the length of the flowerbed.
